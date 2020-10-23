@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+}
+
+.todo-list-main {
+  display: flex;
+  flex-direction: column;
+  width: 99%;
+  align-items: center;
+  border: 10px groove blue;
+  border-radius: 5px;
+  background-color: lightblue;
+  margin: 10px;
+  padding: 10px;
+}
+
+.todo-list-main button {
+  background-color: lightgoldenrodyellow;
+  outline-color: goldenrod;
+  outline-style: groove;
+  outline-width: 7px;
+  margin: 20px;
+  padding: 10px;
+}
+
+.todo-list-main input[type=text] {
+  border: none;
+  border-bottom: 4px groove goldenrod;
+  background-color: lightgoldenrodyellow;
+}
+
+.completed {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0 auto 12px;
+}
+
+.completed input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: lightgray;
+}
+
+.completed:hover input ~ .checkmark {
+  background-color: gray;
+}
+
+.completed input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.completed input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.completed .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
