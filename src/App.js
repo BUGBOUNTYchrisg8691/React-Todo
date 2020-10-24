@@ -13,10 +13,22 @@ class App extends React.Component {
     super();
     // this.addTodo.bind(this)
     this.state = {
-      todos: [],
+      todos: localStorage.getItem("todos")
+        ? JSON.parse(localStorage.getItem("todos"))
+        : [],
       todosCopy: [],
       search: "",
     };
+  }
+
+  getInitialState() {
+    return localStorage.getItem("todos") !== null
+      ? JSON.parse(localStorage.get("todos"))
+      : null;
+  }
+
+  componentDidMount() {
+    localStorage.setItem("todos", JSON.stringify(this.state.todos));
   }
 
   onSubmit = () => {
@@ -52,7 +64,6 @@ class App extends React.Component {
         key: Date.now(),
         completed: false,
       };
-
       this.setState((prevState) => {
         return {
           todos: prevState.todos.concat(newTodo),
@@ -60,8 +71,11 @@ class App extends React.Component {
       });
 
       this._inputRef.value = "";
+      localStorage.setItem(
+        "todos",
+        JSON.stringify(this.state.todos.concat(newTodo))
+      );
     }
-    console.log(this.state.todos);
   };
 
   toggleTodo = (key) => {
