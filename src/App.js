@@ -11,7 +11,6 @@ class App extends React.Component {
   // this component is going to take care of state, and any change handlers you need to work with your state
   constructor() {
     super();
-    // this.addTodo.bind(this)
     this.state = {
       todos: localStorage.getItem("todos")
         ? JSON.parse(localStorage.getItem("todos"))
@@ -90,11 +89,15 @@ class App extends React.Component {
     this.setState({ todos: newTodos });
   };
 
+  clearStorage = () => {
+    this.setState({ todos: [] });
+    localStorage.clear();
+  };
+
   render() {
     return (
       <div className="todo-list-main">
         <h1>Todos</h1>
-        Search Todos
         <Search onSubmit={this.onSubmit} onChange={this.onChange} />
         <form onSubmit={this.addTodo}>
           <input
@@ -106,6 +109,7 @@ class App extends React.Component {
         </form>
         <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
         <button onClick={this.clearTodos}>Clear Completed</button>
+        <button onClick={this.clearStorage}>Clear All Todos</button>
       </div>
     );
   }

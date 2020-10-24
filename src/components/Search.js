@@ -9,7 +9,12 @@ export default class Search extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" name="search" onChange={this.props.onChange} />
+        <input
+          type="text"
+          name="search"
+          placeholder="Search..."
+          onChange={this.props.onChange}
+        />
         <button>Search</button>
       </form>
     );
