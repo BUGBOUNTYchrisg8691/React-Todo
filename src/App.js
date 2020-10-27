@@ -3,6 +3,7 @@ import React from "react";
 import "./App.css";
 
 import TodoList from "./components/TodoList";
+import TodoForm from "./components/TodoForm";
 import Search from "./components/Search";
 
 class App extends React.Component {
@@ -30,8 +31,8 @@ class App extends React.Component {
     localStorage.setItem("todos", JSON.stringify(this.state.todos));
   }
 
-  onSubmit = () => {
-    if (this.state.search === "") {
+  search = (searchTerm) => {
+    if (searchTerm === "") {
       this.setState({
         todos: [...this.state.todosCopy],
         todosCopy: [],
@@ -40,9 +41,7 @@ class App extends React.Component {
       this.setState({
         todosCopy: [...this.state.todos],
         todos: this.state.todos.filter((todo) => {
-          return todo.todo
-            .toLowerCase()
-            .includes(this.state.search.toLowerCase());
+          return todo.todo.toLowerCase().includes(searchTerm.toLowerCase());
         }),
       });
     }
@@ -55,26 +54,19 @@ class App extends React.Component {
     });
   };
 
-  addTodo = (e) => {
-    e.preventDefault();
-    if (this._inputRef.value !== "") {
-      let newTodo = {
-        todo: this._inputRef.value,
-        key: Date.now(),
-        completed: false,
-      };
-      this.setState((prevState) => {
-        return {
-          todos: prevState.todos.concat(newTodo),
-        };
-      });
-
-      this._inputRef.value = "";
-      localStorage.setItem(
-        "todos",
-        JSON.stringify(this.state.todos.concat(newTodo))
-      );
-    }
+  addTodo = (todo) => {
+    let newTodo = {
+      todo: todo,
+      key: Date.now(),
+      completed: false,
+    };
+    this.setState({
+      todos: [...this.state.todos, newTodo],
+    });
+    localStorage.setItem(
+      "todos",
+      JSON.stringify(this.state.todos.concat(newTodo))
+    );
   };
 
   toggleTodo = (key) => {
@@ -98,18 +90,13 @@ class App extends React.Component {
     return (
       <div className="todo-list-main">
         <h1>Todos</h1>
-        <Search onSubmit={this.onSubmit} onChange={this.onChange} />
-        <form onSubmit={this.addTodo}>
-          <input
-            type="text"
-            ref={(todo) => (this._inputRef = todo)}
-            placeholder="Enter Todo..."
-          />
-          <button type="submit">Add Todo</button>
-        </form>
+        <Search search={this.search} />
+        <TodoForm
+          addTodo={this.addTodo}
+          clearTodos={this.clearTodos}
+          clearStorage={this.clearStorage}
+        />
         <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} />
-        <button onClick={this.clearTodos}>Clear Completed</button>
-        <button onClick={this.clearStorage}>Clear All Todos</button>
       </div>
     );
   }
